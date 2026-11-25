@@ -1,6 +1,16 @@
+import argparse
 import json
 
-with open("ssh-events.jsonl", encoding="utf-8") as logs:
+parser = argparse.ArgumentParser(description="Analyze OpenSSH logs in JSONL format.")
+parser.add_argument("log_file", help="path to the JSONL log file")
+args = parser.parse_args()
+
+try:
+    logs = open(args.log_file, encoding="utf-8")
+except OSError as error:
+    parser.error(str(error))
+
+with logs:
     accept_log = 0
     fail_log = 0
     failed_by_user_ip = {}
